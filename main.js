@@ -1,33 +1,30 @@
-let numbers = document.querySelectorAll('.number');
-let operations = document.querySelectorAll('.operator');
-let decimalButton = document.getElementById('decimal');
-let resultButton = document.getElementById('result');
-let clearButtons = document.querySelectorAll('.clear-btn');
-let display = document.getElementById('display');
+const numbers = document.querySelectorAll('.number');
+const operations = document.querySelectorAll('.operator');
+const decimalButton = document.getElementById('decimal');
+const resultButton = document.getElementById('result');
+const clearButtons = document.querySelectorAll('.clear-btn');
+const display = document.getElementById('display');
 let memoryCurrentNumber = '0';
 let memoryNewNumbers = false;
 let memoryAllOperation = '';
 
-for (let i = 0; i < numbers.length; i++) {
-    let number = numbers[i];
-    number.addEventListener('click', function (e) {
+numbers.forEach(num => {
+    num.addEventListener('click', function (e) {
         numberPress(e.target.textContent);
     });
-};
+});
 
-for (let i = 0; i < operations.length; i++) {
-    let operator = operations[i];
+operations.forEach(operator => {
     operator.addEventListener('click', function (e) {
         operation(e.target.textContent);
     });
-};
+});
 
-for (let i = 0; i < clearButtons.length; i++) {
-    let clearBtn = clearButtons[i];
+clearButtons.forEach(clearBtn => {
     clearBtn.addEventListener('click', function (e) {
-        clear(e.srcElement.id);
+        clear(e.target.textContent);
     });
-};
+});
 
 decimalButton.addEventListener('click', decimal);
 resultButton.addEventListener('click', result);
@@ -46,7 +43,7 @@ function numberPress(number) {
 };
 
 function operation(oper) {
-    let localMemory = display.value;
+    const localMemory = display.value;
     if (memoryNewNumbers && memoryAllOperation !== '=') {
         display.value = memoryCurrentNumber;
     } else {
@@ -67,30 +64,28 @@ function operation(oper) {
     };
 };
 
-
 function decimal(params) {
     let decimaMemory = display.value;
 
     if (memoryNewNumbers) {
         decimaMemory = '0.'
         memoryNewNumbers = false;
-    } else {
-        if (decimaMemory.indexOf('.') === -1) {
-            decimaMemory += '.';
-        };
+    } else if
+        (decimaMemory.indexOf('.') === -1) {
+        decimaMemory += '.';
     };
-    display.value = decimaMemory;
 };
 
+display.value = decimaMemory;
+display.value = '0';
+memoryNewNumbers = true;
+
 function clear(id) {
-    if (id === 'ce') {
-        display.value = '0';
-        memoryNewNumbers = true;
-    } else if (id === 'c') {
-        display.value = '0';
+    memoryNewNumbers = true;
+    display.value = '0';
+    if (id === 'c') {
         memoryNewNumbers = true;
         memoryCurrentNumber = '0';
         memoryAllOperation = '';
     };
-
 };
